@@ -61,6 +61,9 @@
     <property name="checkable">
      <bool>false</bool>
     </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
     <widget class="QRadioButton" name="RB_DSEnabled">
      <property name="geometry">
       <rect>
@@ -116,7 +119,7 @@
       <string>(130%) Last Recode</string>
      </property>
     </widget>
-    <widget class="QRadioButton" name="radioButton_4">
+    <widget class="QRadioButton" name="RB_EXPOriginal">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -129,7 +132,7 @@
       <string>(100%) PS2 Original</string>
      </property>
     </widget>
-    <widget class="QRadioButton" name="radioButton_5">
+    <widget class="QRadioButton" name="RB_EXPCustom">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -142,7 +145,7 @@
       <string>Custom</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_2">
+    <widget class="QLineEdit" name="LE_EXPPercent">
      <property name="geometry">
       <rect>
        <x>80</x>
@@ -152,7 +155,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="L_EXPPercent">
      <property name="geometry">
       <rect>
        <x>115</x>
@@ -185,7 +188,10 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="TB_Apply">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>360</x>
@@ -201,6 +207,9 @@
     </property>
     <property name="text">
      <string>Apply</string>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
