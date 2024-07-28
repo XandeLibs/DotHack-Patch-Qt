@@ -57,13 +57,18 @@ void MainWindow::setFolderPath(std::filesystem::path Path){
 }
 
 void MainWindow::initialFolderCheck(){
-    std::filesystem::path defWinPath = "C:/Program Files (x86)/Steam/steamapps/common/hackGU";
+#ifdef Q_OS_LINUX
+    std::filesystem::path defaultPath = QDir::homePath().toStdString() + "/.local/share/Steam/steamapps/common/hackGU";
+#endif
+#ifdef Q_OS_WIN32
+    std::filesystem::path defaultPath = "C:/Program Files (x86)/Steam/steamapps/common/hackGU";
+#endif
 
-    if ((exists(defWinPath/c_filePath[0]) ||
-          exists(defWinPath/c_filePath[1]) ||
-          exists(defWinPath/c_filePath[2]) ||
-          exists(defWinPath/c_filePath[3]))){
-        setFolderPath(defWinPath);
+    if ((exists(defaultPath/c_filePath[0]) ||
+          exists(defaultPath/c_filePath[1]) ||
+          exists(defaultPath/c_filePath[2]) ||
+          exists(defaultPath/c_filePath[3]))){
+        setFolderPath(defaultPath);
     }
 }
 
@@ -127,13 +132,18 @@ void MainWindow::on_TB_Apply_clicked()
     }
 
     for (auto v_filenumber = 0; v_filenumber < 4; v_filenumber++){
-        QFile v_file(FolderPath/c_filePath[v_filenumber]);
+        auto fpath = FolderPath/c_filePath[v_filenumber];
+        std::fstream v_file(FolderPath/c_filePath[v_filenumber]);
 
-        v_file.open(QIODeviceBase::WriteOnly | QIODeviceBase::ExistingOnly | QIODeviceBase::Append);
-        v_file.seek(c_lvlScaleAddress[v_filenumber]);
+        if (v_file.fail() || v_file.bad()){
+            QMessageBox::warning(this, "Failed", "Patch could not be applied (file already opened elsewhere?)");
+            return;
+        }
+
+        v_file.seekp(c_lvlScaleAddress[v_filenumber]);
         v_file.write(reinterpret_cast<const char*>(v_ScaleInstructions->data()), v_ScaleInstructions->size());
 
-        v_file.seek(c_xpAddress[v_filenumber]);
+        v_file.seekp(c_xpAddress[v_filenumber]);
         v_file.write(reinterpret_cast<const char*>(v_xpValues.data()), v_xpValues.size());
 
         v_file.close();
